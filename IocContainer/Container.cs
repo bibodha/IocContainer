@@ -55,7 +55,7 @@ namespace IocContainer
             return (T)Resolve(typeof(T));
         }
 
-        private object Resolve(Type T)
+        public object Resolve(Type T)
         {
             object ret = null;
             //first find the registered object in the list.

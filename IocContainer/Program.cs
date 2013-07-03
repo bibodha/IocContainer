@@ -15,7 +15,6 @@ namespace IocContainer
             //Step 3: profit. 
             Container cont = new Container();
             cont.Register<IRepository, Repository>(LifestyleType.Singleton);
-            cont.Register<IServiceProvider, Service>(LifestyleType.Singleton);
 
             IRepository repo1 = cont.Resolve<IRepository>();
             IRepository repo2 = cont.Resolve<IRepository>();

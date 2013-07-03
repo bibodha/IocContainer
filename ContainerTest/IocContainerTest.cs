@@ -32,7 +32,6 @@ namespace ContainerTest
         {
             Container cont = new Container();
             cont.Register<IRepository, Repository>(LifestyleType.Transient);
-            cont.Register<IServiceProvider, Service>();
             IRepository repo1 = cont.Resolve<IRepository>();
             IRepository repo2 = cont.Resolve<IRepository>();
             bool result = repo1 == repo2;
@@ -44,7 +43,6 @@ namespace ContainerTest
         {
             Container cont = new Container();
             cont.Register<IRepository, Repository>(LifestyleType.Singleton);
-            cont.Register<IServiceProvider, Service>(LifestyleType.Singleton);
             IRepository repo1 = cont.Resolve<IRepository>();
             IRepository repo2 = cont.Resolve<IRepository>();
             bool result = repo1.Equals(repo2);
@@ -65,7 +63,6 @@ namespace ContainerTest
         {
             Container cont = new Container();
             cont.Register<IRepository, Repository>();
-            cont.Register<IServiceProvider, Service>();
             IRepository repo = cont.Resolve<IRepository>();
             string result = repo.ShowMessage("This is a test");
             StringAssert.AreEqualIgnoringCase("This is a test", result);

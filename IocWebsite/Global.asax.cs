@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using IocContainer;
+using IocWebsite.IOC;
 
 namespace IocWebsite
 {
@@ -16,6 +18,11 @@ namespace IocWebsite
     {
         protected void Application_Start()
         {
+
+            Container cont = new Container();
+            BootStrapper.Configure(cont);
+            ControllerBuilder.Current.SetControllerFactory(new IOCControllerFactory(cont));
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
