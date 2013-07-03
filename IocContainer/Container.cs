@@ -9,20 +9,46 @@ namespace IocContainer
 {
     public class Container
     {
-        //List of registered objects
-        private readonly List<ObjToRegister> _registered = new List<ObjToRegister>();
-
-        public void Register<T1, T2>()
+        //Dictionary of registered objects
+        //keys are the type that were registered, values are the instances.
+        private Dictionary<ObjToRegister, object> _registered = new Dictionary<ObjToRegister, object>();
+        /// <summary>
+        /// Register types
+        /// </summary>
+        /// <typeparam name="T1">Interface</typeparam>
+        /// <typeparam name="T2">Implementing class</typeparam>
+        public bool Register<T1, T2>()
         {
+            bool ret = false;
             //calls the overloaded method with transient as lifestyleType. Makes it default.
-            Register<T1, T2>(LifestyleType.Transient);
+            ret = Register<T1, T2>(LifestyleType.Transient);
+            return ret;
         }
-        public void Register<T1, T2>(LifestyleType lifestyleType)
+        /// <summary>
+        /// Register types
+        /// </summary>
+        /// <typeparam name="T1">Interface</typeparam>
+        /// <typeparam name="T2">Implementing class</typeparam>
+        /// <param name="lifestyleType">Lifestyle type(Transient or Singleton)</param>
+        public bool Register<T1, T2>(int lifestyleType)
         {
+            int currentCount = _registered.Count;
+            bool ret = false;
             //creates a new custom object to put into the list.
-            _registered.Add(new ObjToRegister(typeof(T1), typeof(T2), lifestyleType));
+            ObjToRegister obj = new ObjToRegister(typeof(T1), typeof(T2), lifestyleType);
+            _registered.Add(obj, null);
+            if (_registered.Count > currentCount)
+                ret = true;
+            else
+                ret = false;
+            return ret;
         }
 
+        /// <summary>
+        /// Resolve type
+        /// </summary>
+        /// <typeparam name="T">Class to resolve.</typeparam>
+        /// <returns>Resolved object from registered types.</returns>
         public T Resolve<T>()
         {
             //calls the overloaded method.
@@ -33,7 +59,7 @@ namespace IocContainer
         {
             object ret = null;
             //first find the registered object in the list.
-            foreach(ObjToRegister o in _registered)
+            foreach(ObjToRegister o in _registered.Keys)
             {
                 if (o.IFace == T)
                 {
@@ -52,34 +78,36 @@ namespace IocContainer
             return ret;
         }
 
-        private object GetInstance(ObjToRegister o)
+        private object GetInstance(ObjToRegister obj)
         {
             object ret = null;
-            //if lifestyle is transient, create a new instance
-            //else return what you got.
-            if (o.LifeStyleType == LifestyleType.Transient)
+            //create a new instance is there is no instance.
+            //if the lifestyle type is transient, create a new instance everytime
+            //if the lifestyle is singleton, return the same instance.
+            if (obj.LifeStyleType == LifestyleType.Transient || _registered[obj] == null)
             {
-                ConstructorInfo consInfo = o.Implemented.GetConstructors()[0];
+                ConstructorInfo consInfo = obj.Implemented.GetConstructors()[0];
                 ParameterInfo[] consParams = consInfo.GetParameters();
                 //if there are no params, just return a new instance.
                 //if there are params, resolve the param types, add it to the constructor and return.
                 if (consParams.Length < 1)
                 {
-                    ret = Activator.CreateInstance(o.Implemented);
+                    ret = Activator.CreateInstance(obj.Implemented);
                 }
                 else
                 {
-                    List<object> param = new List<object>();
+                    List<object> paramList = new List<object>();
                     foreach (ParameterInfo p in consParams)
                     {
-                        param.Add(Resolve(p.ParameterType));
+                        paramList.Add(Resolve(p.ParameterType));
                     }
-                    ret = consInfo.Invoke(param.ToArray());
+                    ret = consInfo.Invoke(paramList.ToArray());
                 }
+                _registered[obj] = ret;
             }
             else
             {
-                ret = o.Implemented;
+                ret = _registered[obj];
             }
             return ret;
         }

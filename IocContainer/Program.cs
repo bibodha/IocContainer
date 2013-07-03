@@ -14,10 +14,13 @@ namespace IocContainer
             //Step 2: call the method.
             //Step 3: profit. 
             Container cont = new Container();
-            cont.Register<IRepository, Repository>();
+            cont.Register<IRepository, Repository>(LifestyleType.Singleton);
+            cont.Register<IServiceProvider, Service>(LifestyleType.Singleton);
 
-            IRepository repo = cont.Resolve<IRepository>();
-            repo.ShowMessage("hello");
+            IRepository repo1 = cont.Resolve<IRepository>();
+            IRepository repo2 = cont.Resolve<IRepository>();
+            bool ret = repo1 == repo2;
+            repo1.ShowMessage("hello");
         }
     }
 }

@@ -9,16 +9,30 @@ namespace IocContainer
     //Interface
     public interface IRepository
     {
-        void ShowMessage(string message);
+        string ShowMessage(string message);
     }
 
     //Class that implements the interface.
     public class Repository : IRepository
     {
-        public void ShowMessage(string message)
+        IServiceProvider _s = null;
+        public Repository(IServiceProvider s)
         {
-            Console.WriteLine(message);
-            Console.Read();
+            _s = s;
+        }
+        public string ShowMessage(string message)
+        {
+            string ret = message;
+            return ret;
+        }
+    }
+
+    public class Service : IServiceProvider
+    {
+
+        public object GetService(Type serviceType)
+        {
+            return null;
         }
     }
 }

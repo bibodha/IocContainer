@@ -6,7 +6,7 @@ using System.Text;
 namespace IocContainer
 {
     //Simple exception class.
-    class NotRegisteredException : Exception
+    public class NotRegisteredException : Exception
     {
         public NotRegisteredException()
         {
