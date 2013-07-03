@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Container.cs" />
     <Compile Include="LifestyleType.cs" />
+    <Compile Include="NotRegisteredException.cs" />
     <Compile Include="ObjToRegister.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Program.cs" />

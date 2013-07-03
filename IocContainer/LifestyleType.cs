@@ -5,9 +5,10 @@ using System.Text;
 
 namespace IocContainer
 {
-    public enum LifestyleType 
+    public class LifestyleType
     {
-        Singleton,
-        Transient
+        //two lifestyle types to handle.
+        public static LifestyleType Transient;
+        public static LifestyleType Singleton;
     }
 }

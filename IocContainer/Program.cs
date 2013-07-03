@@ -10,6 +10,9 @@ namespace IocContainer
     {
         static void Main(string[] args)
         {
+            //Step 1: create a container, register, resolve
+            //Step 2: call the method.
+            //Step 3: profit. 
             Container cont = new Container();
             cont.Register<IRepository, Repository>();
 
