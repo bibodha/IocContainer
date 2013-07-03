@@ -11,7 +11,7 @@ namespace IocContainer
     {
         //Dictionary of registered objects
         //keys are the type that were registered, values are the instances.
-        private Dictionary<ObjToRegister, object> _registered = new Dictionary<ObjToRegister, object>();
+        private IDictionary<ObjToRegister, object> _registered = new Dictionary<ObjToRegister, object>();
         /// <summary>
         /// Register types
         /// </summary>
