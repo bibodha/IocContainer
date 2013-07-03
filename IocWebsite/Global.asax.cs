@@ -18,7 +18,7 @@ namespace IocWebsite
     {
         protected void Application_Start()
         {
-
+            //This is where I set the controller builder and run the bootstrapper to initialize everything.
             Container cont = new Container();
             BootStrapper.Configure(cont);
             ControllerBuilder.Current.SetControllerFactory(new IOCControllerFactory(cont));

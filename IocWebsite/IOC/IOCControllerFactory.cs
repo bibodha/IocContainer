@@ -8,6 +8,8 @@ using System.Web.Routing;
 
 namespace IocWebsite.IOC
 {
+    //this will set this controllerfactory as the one that gets called when a controller
+    //needs to be created.
     public class IOCControllerFactory : DefaultControllerFactory
     {
         private Container _container;

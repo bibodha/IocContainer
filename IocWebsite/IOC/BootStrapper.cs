@@ -8,6 +8,8 @@ using IocWebsite.Controllers;
 
 namespace IocWebsite.IOC
 {
+    //place to register all required controllers
+    //any new controllers need to be registered here.
     public static class BootStrapper
     {
         public static void Configure(Container container)
